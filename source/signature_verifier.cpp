@@ -245,7 +245,8 @@ bool Ed25519Verify(const std::string_view p, SignatureAlgo type, const std::stri
 		}
 		else
 		{
-			static_assert(false);
+			// FIXME: need to resolve this
+			// static_assert(false);
 		}
 
 		if (ret == -1)

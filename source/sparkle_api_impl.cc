@@ -1,3 +1,4 @@
+#include <string.h>
 #include "sparkle_manager.h"
 #include "os_support.h"
 #include "signature_verifier.h"

@@ -128,7 +128,7 @@ namespace SparkleLite
 
 #if 0
 		auto it = res->headers.find("Content-Type");
-		if (_strnicmp(it->second.c_str(), XML_MIME, sizeof(XML_MIME) - 1) != 0)
+		if (strncasecmp(it->second.c_str(), XML_MIME, sizeof(XML_MIME) - 1) != 0)
 		{
 			return SparkleError::kNetworkFail;
 		}
@@ -344,12 +344,12 @@ namespace SparkleLite
 		// sort by version
 		std::sort(appcast.items.begin(), appcast.items.end(), [&](const AppcastItem& a, const AppcastItem& b) -> bool
 			{
-				return _stricmp(a.version.c_str(), b.version.c_str()) > 0;
+				return strcasecmp(a.version.c_str(), b.version.c_str()) > 0;
 			});
 
 		for (auto& item : appcast.items)
 		{
-			if (_stricmp(appcast.items[0].version.c_str(), appVer_.c_str()) <= 0)
+			if (strcasecmp(appcast.items[0].version.c_str(), appVer_.c_str()) <= 0)
 			{
 				// no more match, cause they all must less than current app version
 				break;
@@ -390,7 +390,7 @@ namespace SparkleLite
 
 				auto it = std::find_if(appAcceptChannels_.begin(), appAcceptChannels_.end(), [&](const std::string& v) -> bool
 					{
-						return _stricmp(v.c_str(), item.channel.c_str()) == 0;
+						return strcasecmp(v.c_str(), item.channel.c_str()) == 0;
 					});
 				if (it == appAcceptChannels_.end())
 				{
@@ -405,20 +405,20 @@ namespace SparkleLite
 			//
 			for (auto& ver : item.informationalUpdateVers)
 			{
-				if (_stricmp(ver.c_str(), appVer_.c_str()) == 0)
+				if (strcasecmp(ver.c_str(), appVer_.c_str()) == 0)
 				{
 					filterOut.isInformationalUpdate = true;
 				}
 			}
 
 			if (!item.criticalUpdateVerBarrier.empty() &&
-				_stricmp(item.criticalUpdateVerBarrier.c_str(), appVer_.c_str()) > 0)
+				strcasecmp(item.criticalUpdateVerBarrier.c_str(), appVer_.c_str()) > 0)
 			{
 				filterOut.isCriticalUpdate = true;
 			}
 
 			if (!item.minAutoUpdateVerRequire.empty() &&
-				_stricmp(item.minAutoUpdateVerRequire.c_str(), appVer_.c_str()) <= 0)
+				strcasecmp(item.minAutoUpdateVerRequire.c_str(), appVer_.c_str()) <= 0)
 			{
 				filterOut.canAutoUpdateSupported = true;
 			}
@@ -477,7 +477,7 @@ namespace SparkleLite
 		}
 
 		// prepare SSL
-		if (_strnicmp(host.c_str(), HTTPS_SCHEME, sizeof(HTTPS_SCHEME) - 1) == 0)
+		if (strncasecmp(host.c_str(), HTTPS_SCHEME, sizeof(HTTPS_SCHEME) - 1) == 0)
 		{
 			if (!caPath_.empty())
 			{
